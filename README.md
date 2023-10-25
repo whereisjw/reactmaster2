@@ -1,46 +1,136 @@
-# Getting Started with Create React App
+# npm i styled-components
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```
+import styled from "styled-components";
+```
 
-## Available Scripts
+```
+import React from "react";
 
-In the project directory, you can run:
+import "./App.css";
+import styled from "styled-components";
 
-### `npm start`
+const Father = styled.div`
+  display: flex;
+`;
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+const BoxOne = styled.div`
+  background-color: teal;
+  width: 100px;
+  height: 100px;
+`;
+const BoxTwo = styled.div`
+  background-color: tomato;
+  width: 100px;
+  height: 100px;
+`;
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+const Text = styled.span`
+  color: white;
+`;
 
-### `npm test`
+function App() {
+  return (
+    <Father>
+      <BoxOne>
+        <Text>white</Text>
+      </BoxOne>
+      <BoxTwo></BoxTwo>
+    </Father>
+  );
+}
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+export default App;
+```
 
-### `npm run build`
+# as
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+      <Btn as="a">login</Btn>
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# styled-components 애니메이션주기 ,자식컴포넌트
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+         <Box>
+        <Emoji>😲</Emoji>
+      </Box>
+      <Emoji>🌑</Emoji>
+```
 
-### `npm run eject`
+```
+const rotationAnimation = keyframes`
+from{
+transform: rotate(0deg);
+border-radius: 0px;
+}to{
+  transform: rotate(360deg);
+  border-radius: 50%;
+}`;
+const Emoji = styled.span`
+  font-size: 36px;
+`;
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+const Box = styled.div`
+  height: 200px;
+  width: 200px;
+  background-color: tomato;
+  animation: ${rotationAnimation} 1s linear infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${Emoji}:hover {
+    font-size: 90px;
+  }
+`;
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# darkmode/lightmode 구현
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. index에 themeprovider로 우산씌우기
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+import { ThemeProvider } from "styled-components";
 
-## Learn More
+const darkTheme = {
+  textColor: "whitesmoke",
+  backgroundColor: "#111",
+};
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const lightTheme = {
+  textColor: "#111",
+  backgroundColor: "whitesmoke",
+};
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
+root.render(
+  <ThemeProvider theme={lightTheme}>
+    <App />
+  </ThemeProvider>
+);
+```
+
+2. 다크모드 적용할 컴포넌트에 styled-components로 적용해주기
+
+```
+const Wrapper = styled.div`
+  display: flex;
+  background-color: ${(props) => props.theme.backgroundColor};
+  height: 100vh;
+  width: 100vw;
+`;
+
+const Title = styled.h1`
+  color: ${(props) => props.theme.textColor};
+`;
+
+function App() {
+  return (
+    <Wrapper>
+      <Title>hi</Title>
+    </Wrapper>
+  );
+}
+```
