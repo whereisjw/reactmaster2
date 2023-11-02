@@ -12,6 +12,8 @@ import Price from "./Price";
 import Chart from "./Chart";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { Helmet } from "react-helmet";
+
 interface Params {
   coinId: string;
 }
@@ -179,6 +181,11 @@ const Coin = () => {
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? "loading.." : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         {" "}
         <Title>
@@ -196,8 +203,8 @@ const Coin = () => {
           <span>${infoData?.symbol}</span>
         </OverviewItem>
         <OverviewItem>
-          <span>Open Source:</span>
-          <span>{infoData?.open_source ? "Yes" : "No"}</span>
+          <span>Price:</span>
+          <span>{tickersData?.quotes.USD.price.toFixed(2)}</span>
         </OverviewItem>
       </Overview>
 
@@ -225,8 +232,8 @@ const Coin = () => {
         <Route path={`/:coinId/price`}>
           <Price></Price>
         </Route>
-        <Route path={`/coinId/chart`}>
-          <Chart></Chart>
+        <Route path={`/:coinId/chart`}>
+          <Chart coinId={coinId} />
         </Route>
       </Switch>
     </Container>

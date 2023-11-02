@@ -281,3 +281,47 @@ a{
 ```
   "include": ["src/**/*.tsx", "src/**/*.ts", "src/**/*.d.ts"]
 ```
+
+# npm install --save react-apexcharts apexcharts
+
+```
+import ApexCharts from "react-apexcharts";
+   <ApexCharts
+          type="line"
+          series={[
+            {
+              name: "price",
+              data: data?.map((v) => parseFloat(v.close)) ?? [],
+            },
+          ]}
+          options={{
+            tooltip: { y: { formatter: (value) => `$ ${value.toFixed(3)}` } },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["blue"], stops: [0, 100] },
+              colors: ["red"],
+            },
+            stroke: { curve: "smooth", width: 3 },
+            theme: { mode: "dark" },
+            chart: {
+              height: 300,
+              width: 500,
+              toolbar: { show: true },
+              background: "transparent",
+            },
+            grid: { show: false },
+            yaxis: { show: false },
+            xaxis: {
+              labels: { show: false },
+              axisTicks: { show: false },
+              axisBorder: { show: false },
+              categories:
+                data?.map((v) =>
+                  new Date(v.time_close * 1000).toLocaleDateString()
+                ) ?? [],
+            },
+          }}
+        />
+```
+
+# npm i react-helmet
