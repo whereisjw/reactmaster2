@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 
 import "./App.css";
-import styled, { createGlobalStyle, keyframes } from "styled-components";
+import styled, {
+  ThemeProvider,
+  createGlobalStyle,
+  keyframes,
+} from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { darkTheme, lightTheme } from "./theme";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atom";
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400&family=Source+Sans+3:wght@300;400&display=swap');
 html, body, div, span, applet, object, iframe,
@@ -68,27 +75,14 @@ a{
 `;
 
 function App() {
-  const Container = styled.div`
-    background-color: ${(props) => props.theme.bgColor};
-  `;
-  const H1 = styled.h1`
-    color: ${(props) => props.theme.textColor};
-  `;
-
-  interface DummpyProps {
-    text: String;
-    Active?: boolean;
-  }
-
-  function Dummy({ text, Active = false }: DummpyProps) {
-    return <h1>{text}</h1>;
-  }
-  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {};
+  const isDark = useRecoilValue(isDarkAtom);
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <GlobalStyle />
+        <Router />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
     </>
   );
 }

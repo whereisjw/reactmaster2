@@ -65,7 +65,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   text-transform: uppercase;
   font-size: 15px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.25);
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
@@ -162,22 +162,6 @@ const Coin = () => {
   );
   console.log(priceMatch);
 
-  useEffect(() => {
-    /*  (async () => {
-      const infoData = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      ).json();
-      const priceData = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-      ).json();
-      console.log(infoData);
-      console.log(priceData);
-
-      setInfo(infoData);
-      setPriceInfo(priceData);
-      setLoading(false);
-    })(); */
-  }, [coinId]);
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
